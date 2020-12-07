@@ -1,0 +1,34 @@
+<html>
+    <head>
+        <title>Received Post Data!</title>
+    </head>
+    <style>
+      table, th, td {
+        border: 1px solid black;
+        border-collapse: collapse;
+      }
+    </style>
+    <body>
+        <h1><e> Contact List:  </e></h1>
+        <table>
+            <thead>
+              <tr>
+                <th>Name </th>
+                <th>Contact by address</th>
+                <th>Contact by email</th>
+                <th>Contact by phone</th>
+              </tr>
+            </thead>
+            <tbody>
+                <% responseList.forEach(function (user) { %>
+                  <tr>
+                    <td> <%= user.name %> </td>
+                    <td> <%= user.mail %> </td>
+                    <td> <%= user.email %> </td>
+                    <td> <%= user.phone %> </td>
+                  </tr>
+                <% }); %>
+            </tbody>
+        </table>
+    </body>
+</html>
