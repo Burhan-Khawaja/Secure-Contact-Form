@@ -1,7 +1,21 @@
 doctype html
 html
-  head
-  body
+head
+    script(src= "../javascripts/geocoding.js")
+    link(rel='stylesheet' href='https://unpkg.com/leaflet@1.7.1/dist/leaflet.css')
+    script(src='https://unpkg.com/leaflet@1.7.1/dist/leaflet.js')
+
+    style.
+        #myMap {
+        position: absolute;
+        width: 60%;
+        height: 60%;
+        padding: 4em;
+        border-style: solid;
+        border-width: 4px;
+        border-color: #c4c4c4;
+        }
+body(onload='createMap()')
     div 
         h1 Contacts: 
         table(id=contactList)
@@ -11,7 +25,6 @@ html
                     th Contact by address
                     th Contact by phone
                     th Contact by email
-                    
             tbody
                 each response in responseList   
                     tr 
@@ -19,8 +32,9 @@ html
                         td #{response.street + " " + response.city + ", " + response.state + " " + response.zip }
                         td #{response.phone}
                         td #{response.email}
-
     div
         button(type='submit')  button for later.! 
     p
         a(href='contacts')  link for something else too!.
+    #myMap
+
