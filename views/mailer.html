@@ -1,9 +1,10 @@
 <!DOCTYPE html>
 <html>
 <head>
+    <script src="../public/javascripts/geocoding.js" onload= 'console.log("EASDSADSAD")'></script>
 </head>
-<body>
-    <form id = "myForm" action="mailer.html" method="POST">
+<body >
+    <form id = "myForm" <!-- action="mailer.html" method="POST" some comments, post the data in geocoding.js and not in the html form.--> >
         <div>
             <input type="radio" id = "Mr" name = "prefix" value="Mr" checked/>
             <label for="Mr">Mr </label>
@@ -63,7 +64,7 @@
             <label for="anyContact">Any</label>
 
         </div>
-        <button type="submit"> Send me spam forever! </button>
+        <button type="submit" onclick = 'addLocation()'> Send me spam forever! </button>
 
     </form>
 

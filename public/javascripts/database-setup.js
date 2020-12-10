@@ -4,28 +4,19 @@ var MongoClient = require('mongodb').MongoClient;
 var ObjectID = require('mongodb').ObjectID;
 var url = 'mongodb://localhost:27017/mailer';
 let contacts; // will hold the contacts collection.
-let db;
+let db; //will hold database collection to bee used across files as well
 
+//module.exports is used when creating JavaScript modules to export functions,objects, and other values to other programs.
 module.exports = {
 
     //connect to database
-    createDatabase: async() => {
-        console.log("STARTING DATABASE");
-        
-        /*
-        MongoClient.connect(url, function(err, database) {
-            console.log("Connected correctly to server.");
-            const myDatabase = database.db('dataBase');
-            contacts = await myDatabase.collection("contacts");
-            console.log("New Collection Made.");
-        // console.log(contacts);
-        });
-        */
+    createDatabase: async() => {    
+        console.log("Creating Database: ");    
         try {
             const connection = await MongoClient.connect(url);
             db = connection.db('webapps');
             contacts = await db.createCollection("contacts"); 
-            console.log("before error, this should run.");        
+            console.log("Database Created Successfuly");
         } catch(err) {
             console.log(err)
         }

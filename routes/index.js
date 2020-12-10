@@ -16,20 +16,19 @@ router.get('/mailer', function(req, res, next) {
     res.render('mailer', { });
 });
 
-router.post('/mailer.html', function(req,res,next) {    
+//retrieve mailer page that contains form
+router.post('/mailer.html', function(req,res,next) {  
+    console.log("Posting daata");  
     var body = req.body;
+    //BURBUR should process data to be better.
     console.log(body);
-    mongoDatabase.getContactsCollection().insert(body);
-    
-    return;
+    mongoDatabase.getContactsCollection().insertOne(body);
+    console.log("submitted data to database");
 });
 
+//get contacts list
 router.get('/contacts', function(req, res, next) {
-    testArr = mongoDatabase.getContactsCollection().find({id:"Mr"});
-    testArr.toArray();
-
     mongoDatabase.getContactsCollection().find().toArray(function (err, result) {
-        console.log(result);
         res.render("contacts", {responseList: result} );
     });    
 });

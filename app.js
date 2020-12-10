@@ -3,12 +3,12 @@ var express = require('express');
 var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
-let mongoDatabase = require('./public/javascripts/database-setup');
 var indexRouter = require('./routes/index');
-
+//required to create mongodatabase on startup
+let mongoDatabase = require('./public/javascripts/database-setup');
+//required to create leaflet map on startup.
 var app = express();
 
-const test = 10000000;
 // view engine setup
 
 app.set('views', path.join(__dirname, 'views'));
@@ -36,29 +36,12 @@ app.use(function(err, req, res, next) {
     res.status(err.status || 500);
     res.render('error');
 });
-/*
-const createDatabase = async() => {
-    console.log("STARTING DATABASE");
-    /*
-    MongoClient.connect(url, function(err, database) {
-        console.log("Connected correctly to server.");
-        const myDatabase = database.db('dataBase');
-        contacts = await myDatabase.collection("contacts");
-        console.log("New Collection Made.");
-    // console.log(contacts);
-    });
-    
-    try {
-        const connection = await MongoClient.connect(url);
-        const db = connection.db('webapps');
-        contacts = await db.createCollection("contacts"); 
-        console.log("before error, this should run.");        
 
-    } catch(err) {
-        console.log(err)
-    }
-}
-*/
 //create database.
 mongoDatabase.createDatabase();
+
+//create map for contacts page.
+//Create map here on app startup b/c if we create it when user requests contacts page, then a new map 
+//will be created everytime the user requests the page and we will lose the contact markers.
+//leafletMap.createMap();
 module.exports = app;
