@@ -2,8 +2,8 @@ doctype html
 html
 head
     script(src= "../javascripts/geocoding.js")
-    link(rel='stylesheet' href='https://unpkg.com/leaflet@1.7.1/dist/leaflet.css')
-    script(src='https://unpkg.com/leaflet@1.7.1/dist/leaflet.js')
+    link(rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" integrity="sha512-xodZBNTC5n17Xt2atTPuE1HxjVMSvLVW9ocqUKLsCC5CXdbqCmblAshOMAS6/keqq/sMZMZ19scR4PsZChSR7A==" crossorigin="")
+    script(src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js" integrity="sha512-XQoYMqMTK8LvdxXYG3nZ448hOEQiglfqkJs1NOQV44cWnUrBc8PkAOcXy20w0vlaXaVUearIOBhiXZ5V3ynxwA==" crossorigin="")
 
     style.
         #myMap {
@@ -15,26 +15,86 @@ head
         border-width: 4px;
         border-color: #c4c4c4;
         }
-body(onload='createMap()')
+
+body
     div 
         h1 Contacts: 
-        table(id=contactList)
+        table(id=contactList )
             thead   
                 tr  
                     th Name
                     th Contact by address
                     th Contact by phone
                     th Contact by email
-            tbody
-                each response in responseList   
-                    tr 
-                        td #{response.prefix + " " + response.first + " " + response.last}
+            tbody(id = 'tableBody')
+                each response in responseList       
+                    tr(id='contactsTableRow')
+                        //hidden attributes included for ease of access in other functions/scripts.
+                        td(id="longitudeElement" hidden) #{response.longitude}
+                        td(id="latitudeElement"  hidden) #{response.latitude}
+                        td #{response.prefix + " " + response.first + " " + response.last} 
                         td #{response.street + " " + response.city + ", " + response.state + " " + response.zip }
                         td #{response.phone}
                         td #{response.email}
+                        td(id="contactID" ) #{response._id}
+                            //td <a onclick='changeContact(#{response.email})' class="btn btn-primary" > Update Contact </a>
+                            // Old code testing event handler. script. 
+                                var td = document.createElement('td');
+                                td.className = 'updateLink';
+                                var text = document.createTextNode("Update contact");
+                                td.setAttribute
+                                td.addEventListener("click", function( ) {
+                                    console.log(#{response.longitude});
+                                });
+                                var lastChild = document.getElementById('contactsTableRow');
+                                td.appendChild(text);
+                                lastChild.appendChild(td);
+                                console.log("Done");
+                        //td <a onclick='changeContact(#{response._id})' class="btn btn-primary" > button </a>
+                        
+    //Problem : have to send response data to update.pug so we can pre fill fields
+    //solution: create form with button that when clicked will post data with contactID, 
+    //and we use that to find what user wants updataed   
+
+    //create td attribute, add event listener. This event listener 
+    //when clicked will call cahngeContact driver function with _id
     div
-        button(type='submit')  button for later.! 
+        button(type='button' )  Add a new contact. 
     p
         a(href='contacts')  link for something else too!.
     #myMap
+    script. 
+        createMap();
+
+    //This script is resposnbile for addng the event listener on each table row 
+    //in the table so that when its clicked the map will move to the marker.
+    script.     
+        var tableBody = document.getElementById('tableBody');
+        for(let i = 0; i < tableBody.childNodes.length; i++) {
+            let currentRow = tableBody.childNodes[i]
+            tableBody.childNodes[i].addEventListener("click", function( ) {
+                myMap.flyTo([parseFloat(currentRow.children[1].innerHTML), parseFloat(currentRow.children[0].innerHTML)], 8);
+            });
+        }
+
+    //this script will add markers for every contact
+    each response in responseList
+        script.
+            addMarker(#{response.longitude}, #{response.latitude})        
+
+    //add event handler for link to send ID to function which will send post request, and
+    //we will be able to lookup in the database using the _id.        
+    each response, index in responseList
+        script. 
+            var td = document.createElement('td');
+            td.className = 'updateLink';
+            var text = document.createTextNode("Update contact");
+            td.setAttribute
+            td.addEventListener("click", function( ) {
+                changeContact( "#{response._id}" );
+            });
+            tbl = document.getElementsByTagName("body")[0];
+            tr = tbl.getElementsByTagName("tr");
+            td.appendChild(text);
+            tr[#{index} + 1].appendChild(td);
 
