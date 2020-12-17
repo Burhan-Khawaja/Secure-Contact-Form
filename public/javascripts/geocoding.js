@@ -81,9 +81,33 @@ const addMarker = async(long,lat) => {
 }
 
 
-function changeContact(contact) {
+function changeContact(contactID) {
     console.log("In change contact function. Welcome");
-    console.log(contact);
+    console.log(contactID);
+    //BURBUR legacy code. 
+    //IF YOU DELETE THIS CODE DONT FORGET TO REMOVE 
+    //AXIOS REQUIRE IN PUG FILE
+    // axios.post("/TEST", contact)
+    // .then(function (response) {
+    //     console.log("Back in geocoding file, recieve axiosres");
+    //     console.log(response);
+    //     window.location = "/update";
+    // });
     //console.log(contact._id)
+    
+
+    //Create a form with a hidden element that stores the contact
+    //ID value which will be named _id
+    //submit the form via  post request to /TEST
+    let form = document.createElement('form');
+    form.method = 'post';
+    form.action = '/TEST';
+    const hiddenField = document.createElement('input');
+    hiddenField.type = 'hidden';
+    hiddenField.name = '_id';
+    hiddenField.value = contactID;
+    form.appendChild(hiddenField);
+    document.body.appendChild(form);
+    form.submit();
 }
 

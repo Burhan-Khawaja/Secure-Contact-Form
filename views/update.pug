@@ -2,9 +2,9 @@ doctype html
 html
   head
     script(src = "../javascripts/geocoding.js" )
-    script(src = "https://unpkg.com/axios/dist/axios.min.js")
   body
-    form(action='mailer.html' method='POST' id="myForm")
+    h1 #{ contact[0].first } + "TEST"
+    form(action='updateSubmission' method='POST' id="myForm")
       div
         input#Mr(type='radio' name='prefix' value='Mr' checked='')
         label(for='Mr') Mr 
@@ -18,29 +18,29 @@ html
         input#Dr(type='radio' name='prefix' value='Dr')
         label(for='Dr') Dr 
       div
-        label(for='first') First Name:
-        input#first(type='text' name='first')
+        label(for='first')  First Name:
+        input#first(type='text' name='first' value= contact[0].first)
         
         label(for='last') Last Name:
-        input#last(type='text' name='last')
+        input#last(type='text' name='last' value=contact[0].last)
       div
         label(for='street') Street:
-        input#street(type='text' name='street')
+        input#street(type='text' name='street' value=contact[0].street)
        
         label(for='city') City
-        input#city(type='text' name='city')
+        input#city(type='text' name='city' value=contact[0].city)
       div
         label(for='state') State
-        input#state(type = 'text' name='state')
+        input#state(type = 'text' name='state' value=contact[0].state)
 
         label(for='zip') Zip:
-        input#zip(type='text' name='zip')
+        input#zip(type='text' name='zip' value=contact[0].zip)
       div
-        label(for='phone') Phone:
-        input#phone(type='text' name='phone')
+        label(for='phone' ) Phone:
+        input#phone(type='text' name='phone' value=contact[0].phone)
       div
-        label(for='email') Email:
-        input#email(type='text' name='email')
+        label(for='email' ) Email:
+        input#email(type='text' name='email' value=contact[0].email)
       div
         label How may we contact you?
        
@@ -57,7 +57,8 @@ html
         label(for='anyContact') Any
       div <!-- These input tags will be hidden from the user, and are used to store the longitude and latitude once we perform geocoding in javascript-->
         input#long(type='number' name='longitude' hidden)
-        input#lat(type='number' name= 'latitude' hidden) 
+        input#lat(type='number' name= 'latitude' hidden)
+        input#_id(type='number' name = 'MongoIDVal' hidden value=contact._id) 
       button(type='button' onclick = 'addLocation()' )  Send me spam forever! 
     p
       a(href='contacts')  Full Contact List.

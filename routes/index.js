@@ -1,5 +1,5 @@
 var express = require('express');
-const { Db } = require('mongodb');
+const { Db, ObjectId } = require('mongodb');
 const { getContactsCollection } = require('../public/javascripts/database-setup');
 var router = express.Router();
 let mongoDatabase = require('../public/javascripts/database-setup');
@@ -29,7 +29,6 @@ router.post('/mailer.html', function(req,res,next) {
 //get contacts list
 router.get('/contacts', function(req, res, next) {
     mongoDatabase.getContactsCollection().find().toArray(function (err, result) {
-        console.log(result);
         res.render("contacts", {responseList: result} );
     });    
 });
@@ -38,5 +37,34 @@ router.get('/update', function(req, res, next) {
     console.log("gETINNG UPDATE PAGE WAITAMINUTE");
     res.render("update", {});
 });
-    module.exports = router;
+
+router.post('/TEST', function(req, res, next) {
+    //find correct mongoDB c ontact to change by using the id that was passed in,
+    //we must turn it into a string first, then an objectID from mongo's library.
+    //
+     mongoDatabase.getContactsCollection().find( {_id: ObjectId(req.body._id.toString())} ).toArray(function (err, result) {
+         if(err) {
+             console.log(err);
+         }
+         console.log(result);
+         res.render('update', {contact: result});
+     });
+
+     /*actual working code before major chimplike edits.
+          mongoDatabase.getContactsCollection().find( {_id: ObjectId(req.body._id.toString())} ).toArray(function (err, result) {
+         if(err) {
+             console.log(err);
+         }
+         console.log(result);
+         res.render('update', {mongoId: result});
+     });
+     */
+//    console.log(tmp);
+});
+
+
+router.post('/updateSubmission', function(req,res,next ) {
+    console.log("POSTING IN updateSubmission")
+});
+module.exports = router;
 

@@ -40,8 +40,4 @@ app.use(function(err, req, res, next) {
 //create database.
 mongoDatabase.createDatabase();
 
-//create map for contacts page.
-//Create map here on app startup b/c if we create it when user requests contacts page, then a new map 
-//will be created everytime the user requests the page and we will lose the contact markers.
-//leafletMap.createMap();
 module.exports = app;
