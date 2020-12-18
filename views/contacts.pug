@@ -83,19 +83,38 @@ body
         script.
             addMarker(#{response.longitude}, #{response.latitude})        
 
-    //add event handler for link to send ID to function which will send post request, and
+    //add event handler  to send ID to function which will send post request, and
     //we will be able to lookup in the database using the _id.        
+    //also include event handler to delete a contact from the contact list.
+
+    //script to add button to delete contact.
+    each response, index in responseList
+        script.      
+            var deleteButton = document.createElement('td');
+            deleteButton.className = 'contactsEventHandler';
+            var deleteText = document.createTextNode("Delete Contact");
+            deleteButton.setAttribute;
+            deleteButton.addEventListener("click", function() {
+                deleteContact( "#{response._id}" );
+            });
+            tbl = document.getElementsByTagName("body")[0];
+            tr = tbl.getElementsByTagName("tr");
+            deleteButton.appendChild(deleteText);
+            tr[#{index} + 1].appendChild(deleteButton);
+    //script to add button to update contact.
     each response, index in responseList
         script. 
-            var td = document.createElement('td');
-            td.className = 'updateLink';
-            var text = document.createTextNode("Update contact");
-            td.setAttribute
-            td.addEventListener("click", function( ) {
+            var updateButton = document.createElement('td');
+            updateButton.className = 'contactsEventHandler';
+            var updateText = document.createTextNode("Update Contact");
+            updateButton.setAttribute
+            updateButton.addEventListener("click", function() {
                 changeContact( "#{response._id}" );
             });
             tbl = document.getElementsByTagName("body")[0];
             tr = tbl.getElementsByTagName("tr");
-            td.appendChild(text);
-            tr[#{index} + 1].appendChild(td);
+            //tr = tbl.getElementsByTagName("tr");
+            updateButton.appendChild(updateText);
+            tr[#{index} + 1].appendChild(updateButton);
 
+    

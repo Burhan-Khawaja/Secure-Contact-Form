@@ -55,14 +55,22 @@ router.post('/updateDatabase', function(req, res, next) {
 //http request that will FIND OBJECT BY MONGO ID and DISPLAY FORM WITH PRE POPULATED INFO
 router.post('/updateForm', function(req, res, next) {
     //find correct mongoDB c ontact to change by using the id that was passed in,
-    //we must turn it into a string first, then an objectID from mongo's library.
-    
+    //we must turn it into a string first, then an objectID from mongo's library. 
      mongoDatabase.getContactsCollection().find( {_id: ObjectId(req.body._id.toString())} ).toArray(function (err, result) {
          if(err) {
              console.log(err);
          }
          res.render('update', {contact: result});
      });
+});
+
+router.post('/deleteContact', function(req,res,next) {
+    mongoDatabase.getContactsCollection().findOneAndDelete( {_id: ObjectId(req.body._id.toString())}, function (err,result) {
+        if(err) {
+            console.log(err);
+        }
+        res.redirect('/contacts');
+    });
 });
 
 

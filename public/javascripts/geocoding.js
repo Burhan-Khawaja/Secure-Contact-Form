@@ -80,7 +80,8 @@ const addMarker = async(long,lat) => {
     await L.marker( [lat,long] ).addTo(myMap);
 }
 
-
+//function that will post to server to recieve contact form with pre populated data.
+//Will submit an invisible form to server.
 function changeContact(contactID) {
     console.log("In change contact function. Welcome");
     console.log(contactID);
@@ -111,3 +112,19 @@ function changeContact(contactID) {
     form.submit();
 }
 
+//function that creates a form to be submitted that will be responsbile for deleting a contact form the database.
+//This function is called in contacts.pug as an event handler, and will post to /deleteContact in index.js which will delete the contact. 
+function deleteContact(contactID) {
+    console.log("In DELETE contact function. Welcome");
+    console.log(contactID);
+    let form = document.createElement('form');
+    form.method = 'post';
+    form.action = '/deleteContact';
+    const hiddenField = document.createElement('input');
+    hiddenField.type = 'hidden';
+    hiddenField.name = '_id';
+    hiddenField.value = contactID;
+    form.appendChild(hiddenField);
+    document.body.appendChild(form);
+    form.submit();
+}
