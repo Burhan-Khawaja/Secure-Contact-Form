@@ -37,7 +37,7 @@ body
                         td #{response.street + " " + response.city + ", " + response.state + " " + response.zip }
                         td #{response.phone}
                         td #{response.email}
-                        td(id="contactID" ) #{response._id}
+                        td(id="contactID" hidden) #{response._id}
                             //td <a onclick='changeContact(#{response.email})' class="btn btn-primary" > Update Contact </a>
                             // Old code testing event handler. script. 
                                 var td = document.createElement('td');
@@ -60,7 +60,7 @@ body
     //create td attribute, add event listener. This event listener 
     //when clicked will call cahngeContact driver function with _id
     div
-        button(type='button' )  Add a new contact. 
+        button(type='button' onclick= 'window.open("/mailer")')  Add a new contact
     p
         a(href='contacts')  link for something else too!.
     #myMap

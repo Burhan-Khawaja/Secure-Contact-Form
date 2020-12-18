@@ -101,7 +101,7 @@ function changeContact(contactID) {
     //submit the form via  post request to /TEST
     let form = document.createElement('form');
     form.method = 'post';
-    form.action = '/TEST';
+    form.action = '/updateForm';
     const hiddenField = document.createElement('input');
     hiddenField.type = 'hidden';
     hiddenField.name = '_id';

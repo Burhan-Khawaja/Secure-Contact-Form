@@ -2,9 +2,11 @@ doctype html
 html
   head
     script(src = "../javascripts/geocoding.js" )
+    script(src = "https://unpkg.com/axios/dist/axios.min.js")
+
   body
     h1 #{ contact[0].first } + "TEST"
-    form(action='updateSubmission' method='POST' id="myForm")
+    form(action='updateDatabase' method='POST' id="myForm")
       div
         input#Mr(type='radio' name='prefix' value='Mr' checked='')
         label(for='Mr') Mr 
@@ -58,7 +60,7 @@ html
       div <!-- These input tags will be hidden from the user, and are used to store the longitude and latitude once we perform geocoding in javascript-->
         input#long(type='number' name='longitude' hidden)
         input#lat(type='number' name= 'latitude' hidden)
-        input#_id(type='number' name = 'MongoIDVal' hidden value=contact._id) 
+        input#_id(type='text' name = '_id' value = contact[0]._id) 
       button(type='button' onclick = 'addLocation()' )  Send me spam forever! 
     p
       a(href='contacts')  Full Contact List.
