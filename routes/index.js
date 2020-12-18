@@ -3,12 +3,30 @@ const { Db, ObjectId } = require('mongodb');
 const { getContactsCollection } = require('../public/javascripts/database-setup');
 var router = express.Router();
 let mongoDatabase = require('../public/javascripts/database-setup');
+
+
 /* GET start page. 
    I'm allowing the user to hit multiple URLs and 
    still get the same functionality.  I could also
    use regular expressions here, instead of explicitely
    listing multiple url paths.  Choice is yours.
-*/
+*///burbur
+//router.get('/', mailer);
+
+// router.use((req,res,next) => {
+//     if (req == "/mailer") {
+//         res.render('mailer', { });
+//     }
+//    if(req.user) {
+//         console.log("going to next");
+//         next();
+//     }
+//    else {
+//        console.log("Redirecting to login page.")
+//        res.render("\login");
+//     }  
+// });
+
 
 /* GET home page. */
 router.get('/mailer', function(req, res, next) {

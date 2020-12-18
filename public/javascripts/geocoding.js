@@ -59,7 +59,7 @@ const createMap = async(long,lat) => {
     await L.tileLayer('https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token={accessToken}', {
         attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors, <a href="https://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="https://www.mapbox.com/">Mapbox</a>',
         maxZoom: 18,
-        id: 'mapbox/streets-v11',
+        id: 'mapbox/dark-v10',
         tileSize: 512,
         zoomOffset: -1,
         accessToken: 'pk.eyJ1IjoiYmtoYXdhamEiLCJhIjoiY2tpMTJkM3VvMHZxcjJ5cGVsanA2aXg2OSJ9.lXT1twUQoyk9dJyp5ElbQw'
@@ -127,4 +127,29 @@ function deleteContact(contactID) {
     form.appendChild(hiddenField);
     document.body.appendChild(form);
     form.submit();
+}
+
+
+function searchTable() {   
+    var input, filter, tbl, tr, td, i, txtValue;
+    input = document.getElementById("searchBox");
+    filter = input.value.toUpperCase();
+    tbl = document.getElementById("contactList");
+    tr = tbl.getElementsByTagName("tr");
+
+    // Loop through all table rows, and hide those who don't match the search query
+    for (i = 0; i < tr.length; i++) {
+    //we have hidden longitude/latitude elements in each table row, so we get the 3rd td element which is the name
+    td = tr[i].getElementsByTagName("td")[2];
+    console.log(td);
+    if (td) {
+        txtValue = td.textContent;
+        if (txtValue.toUpperCase().indexOf(filter) > -1) {
+            tr[i].style.display = "";
+        }
+        else {
+            tr[i].style.display = "none";
+      }
+    }
+  }
 }

@@ -5,28 +5,27 @@ head
     link(rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" integrity="sha512-xodZBNTC5n17Xt2atTPuE1HxjVMSvLVW9ocqUKLsCC5CXdbqCmblAshOMAS6/keqq/sMZMZ19scR4PsZChSR7A==" crossorigin="")
     script(src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js" integrity="sha512-XQoYMqMTK8LvdxXYG3nZ448hOEQiglfqkJs1NOQV44cWnUrBc8PkAOcXy20w0vlaXaVUearIOBhiXZ5V3ynxwA==" crossorigin="")
     script(src="https://unpkg.com/axios/dist/axios.min.js")
-
-    style.
-        #myMap {
-        position: absolute;
-        width: 60%;
-        height: 60%;
-        padding: 4em;
-        border-style: solid;
-        border-width: 4px;
-        border-color: #c4c4c4;
-        }
+    
+    link(href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-giJF6kkoqNQ00vy+HMDP7azOuL0xtbfIcaT9wjKHr8RbDVddVHyTfAAsrekwKmP1" crossorigin="anonymous")
+    script(src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/js/bootstrap.bundle.min.js" integrity="sha384-ygbV9kiqUc6oa4msXn9868pTtWMgiQaeYH7/t7LECLbyPA2x65Kgf80OJFdroafW" crossorigin="anonymous")
+    link(rel='stylesheet', href='/stylesheets/style.css')
 
 body
-    div 
-        h1 Contacts: 
-        table(id=contactList )
+    .container
+        .card.text-white.bg-dark
+            .card-header.text-center
+                h1 Contact List
+            .card-body
+                .form-group.text-center
+                    input.form-control(type="text" id="searchBox" onkeyup="searchTable()" placeholder="Search for names..")
+        table.table.table-striped.table-dark(id="contactList")
             thead   
                 tr  
                     th Name
                     th Contact by address
                     th Contact by phone
                     th Contact by email
+                    th 
             tbody(id = 'tableBody')
                 each response in responseList       
                     tr(id='contactsTableRow')
@@ -38,34 +37,14 @@ body
                         td #{response.phone}
                         td #{response.email}
                         td(id="contactID" hidden) #{response._id}
-                            //td <a onclick='changeContact(#{response.email})' class="btn btn-primary" > Update Contact </a>
-                            // Old code testing event handler. script. 
-                                var td = document.createElement('td');
-                                td.className = 'updateLink';
-                                var text = document.createTextNode("Update contact");
-                                td.setAttribute
-                                td.addEventListener("click", function( ) {
-                                    console.log(#{response.longitude});
-                                });
-                                var lastChild = document.getElementById('contactsTableRow');
-                                td.appendChild(text);
-                                lastChild.appendChild(td);
-                                console.log("Done");
-                        //td <a onclick='changeContact(#{response._id})' class="btn btn-primary" > button </a>
-                        
-    //Problem : have to send response data to update.pug so we can pre fill fields
-    //solution: create form with button that when clicked will post data with contactID, 
-    //and we use that to find what user wants updataed   
 
-    //create td attribute, add event listener. This event listener 
-    //when clicked will call cahngeContact driver function with _id
-    div
-        button(type='button' onclick= 'window.open("/mailer")')  Add a new contact
-    p
-        a(href='contacts')  link for something else too!.
-    #myMap
-    script. 
-        createMap();
+        //create td attribute, add event listener. This event listener 
+        //when clicked will call cahngeContact driver function with _id
+        div
+            button.btn-primary(type='button' onclick= 'window.open("/mailer","_self")')  Add a new contact
+        #myMap
+        script. 
+            createMap();
 
     //This script is resposnbile for addng the event listener on each table row 
     //in the table so that when its clicked the map will move to the marker.
@@ -91,8 +70,8 @@ body
     each response, index in responseList
         script.      
             var deleteButton = document.createElement('td');
-            deleteButton.className = 'contactsEventHandler';
-            var deleteText = document.createTextNode("Delete Contact");
+            deleteButton.className = 'text btn btn-danger';
+            var deleteText = document.createTextNode("Delete");
             deleteButton.setAttribute;
             deleteButton.addEventListener("click", function() {
                 deleteContact( "#{response._id}" );
@@ -105,8 +84,8 @@ body
     each response, index in responseList
         script. 
             var updateButton = document.createElement('td');
-            updateButton.className = 'contactsEventHandler';
-            var updateText = document.createTextNode("Update Contact");
+            updateButton.className = 'btn btn-primary';
+            var updateText = document.createTextNode("Update");
             updateButton.setAttribute
             updateButton.addEventListener("click", function() {
                 changeContact( "#{response._id}" );
