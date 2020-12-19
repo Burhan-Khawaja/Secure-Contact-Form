@@ -34,10 +34,13 @@ router.get('/mailer', function(req, res, next) {
 });
 
 //retrieve mailer page that contains form
-router.post('/mailer.html', function(req,res,next) {  
+router.post('/submit', function(req,res,next) {  
     console.log("Posting Data");  
     var body = req.body;
     //BURBUR should process data to be better.
+    console.log(body);
+    console.log("==============Chaning contact========");
+    contactCleaner(body);
     console.log(body);
     mongoDatabase.getContactsCollection().insertOne(body);
     console.log("Completed Submittion of Data to Database");
@@ -95,6 +98,53 @@ router.post('/deleteContact', function(req,res,next) {
 router.post('/updateSubmission', function(req,res,next ) {
     console.log("POSTING IN updateSubmission")
 });
+
+
+/*
+    contactCleaner - Responsible for taking the information submitted from the form and putting the data together and adding it to the global list
+                    (ie- appending the data for address/name to one string and checking how to contact a person.)
+    
+    parameters
+        contactInfo - Object that stores processed post request.
+ */
+function contactCleaner(contactInfo) {
+    //check if object has all properties required.
+    //combine the different form elements to make 1 name string and 1 address string that contain all the information.
+
+
+    //check that the object contains the phoneContact proprty and that it is on
+    //set the contactByPhone to true
+    if("phoneContact" in contactInfo && contactInfo.phoneContact == "on") {
+        contactInfo.contactByPhone = true;
+    }
+    else {
+        contactInfo.contactByPhone = false;
+    }
+    
+    //check that the mailContact is in the object, and that it is enabled.
+    if("mailContact" in contactInfo && contactInfo.mailContact == "on") {
+        contactInfo.contactByMail = true;
+    }
+    else {
+        contactInfo.contactByMail = false;
+    }
+    
+    //check for emailContact in the object, and make sure that it is enabled.
+    if("emailContact" in contactInfo && contactInfo.emailContact == "on") {
+        contactInfo.contactByEmail = contactInfo.email;
+    }
+    else {
+        contactInfo.contactByEmail = "No";
+    }
+
+    //check if the user selected the "any" option, and if they have then set all the contact options to the values they gave.
+    if("anyContact" in contactInfo && contactInfo.anyContact == "on") {
+        contactInfo.contactByPhone = true;
+        contactInfo.contactByMail = true;
+        contactInfo.contactByEmail = contactInfo.email;
+    }
+}
+
 
 module.exports = router;
 

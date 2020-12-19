@@ -5,7 +5,7 @@ var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 var indexRouter = require('./routes/index');
 var session = require('express-session');
-
+var lessMiddleware = require('less-middleware')
 //required to create mongodatabase on startup
 let mongoDatabase = require('./public/javascripts/database-setup');
 //required to create leaflet map on startup.
@@ -20,6 +20,7 @@ app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
+app.use(lessMiddleware(path.join(__dirname, 'public')));
 app.use(express.static(path.join(__dirname, 'public')));
 app.use('/', indexRouter);
 

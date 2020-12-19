@@ -78,6 +78,15 @@ const createMap = async(long,lat) => {
 */  
 const addMarker = async(long,lat) => {
     await L.marker( [lat,long] ).addTo(myMap);
+
+    //access html form to later append address
+    let form = document.getElementById("myForm");
+    //access address elements.
+    let street = document.getElementById("street");
+    let city   = document.getElementById("city");
+    let state  = document.getElementById("state");
+    let zip    = document.getElementById("zip")
+
 }
 
 //function that will post to server to recieve contact form with pre populated data.

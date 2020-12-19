@@ -18,8 +18,8 @@ body
             .card-body
                 .form-group.text-center
                     input.form-control(type="text" id="searchBox" onkeyup="searchTable()" placeholder="Search for names..")
-        table.table.table-striped.table-dark(id="contactList")
-            thead   
+        table.table.table-dark.table-bordered.table-hover(id="contactList")
+            thead
                 tr  
                     th Name
                     th Contact by address
@@ -40,7 +40,7 @@ body
 
         //create td attribute, add event listener. This event listener 
         //when clicked will call cahngeContact driver function with _id
-        div
+        d-flex.p-2
             button.btn-primary(type='button' onclick= 'window.open("/mailer","_self")')  Add a new contact
         #myMap
         script. 
@@ -70,7 +70,7 @@ body
     each response, index in responseList
         script.      
             var deleteButton = document.createElement('td');
-            deleteButton.className = 'text btn btn-danger';
+            deleteButton.className = 'container btn btn-danger btn-sm';
             var deleteText = document.createTextNode("Delete");
             deleteButton.setAttribute;
             deleteButton.addEventListener("click", function() {
@@ -84,7 +84,7 @@ body
     each response, index in responseList
         script. 
             var updateButton = document.createElement('td');
-            updateButton.className = 'btn btn-primary';
+            updateButton.className = 'container btn btn-primary btn-sm';
             var updateText = document.createTextNode("Update");
             updateButton.setAttribute
             updateButton.addEventListener("click", function() {
