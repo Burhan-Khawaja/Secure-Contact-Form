@@ -10,40 +10,24 @@ let mongoDatabase = require('../public/javascripts/database-setup');
    still get the same functionality.  I could also
    use regular expressions here, instead of explicitely
    listing multiple url paths.  Choice is yours.
-*///burbur
-//router.get('/', mailer);
+*/
 
-// router.use((req,res,next) => {
-//     if (req == "/mailer") {
-//         res.render('mailer', { });
-//     }
-//    if(req.user) {
-//         console.log("going to next");
-//         next();
-//     }
-//    else {
-//        console.log("Redirecting to login page.")
-//        res.render("\login");
-//     }  
-// });
+//render mailer page
+router.get('/', function(req, res, next) {
+    res.render('mailer', { });
+});
 
-
-/* GET home page. */
+//render mailer page
 router.get('/mailer', function(req, res, next) {
     res.render('mailer', { });
 });
 
-//retrieve mailer page that contains form
+//post to /submit to clean data and add data to mongoDB database.
+//show submission page at the end.
 router.post('/submit', function(req,res,next) {  
-    console.log("Posting Data");  
     var body = req.body;
-    //BURBUR should process data to be better.
-    console.log(body);
-    console.log("==============Chaning contact========");
     contactCleaner(body);
-    console.log(body);
     mongoDatabase.getContactsCollection().insertOne(body);
-    console.log("Completed Submittion of Data to Database");
     res.render("submission", {});
 });
 
@@ -56,9 +40,8 @@ router.get('/contacts', function(req, res, next) {
 
 //HTTP request that will UPDATE DATABASE BASED on CHANGES USER MADE TO CONTACT
 router.post('/updateDatabase', function(req, res, next) {
-    console.log("GETINNG UPDATE PAGE WAITAMINUTE");
     //we want to update the database, but we get an error if we try and update with ID still as a param in the object,
-    //Solution : Store in a temp variable, and delete it from the array.
+    //Solution : Store _id in a temp variable, and delete it from the array.
     let tmp = req.body._id;
     delete req.body._id;
     //change mongodb object, and then display contacts page after.
@@ -85,6 +68,7 @@ router.post('/updateForm', function(req, res, next) {
      });
 });
 
+//HTTP request to delete a contact from mongoDB database.
 router.post('/deleteContact', function(req,res,next) {
     mongoDatabase.getContactsCollection().findOneAndDelete( {_id: ObjectId(req.body._id.toString())}, function (err,result) {
         if(err) {
@@ -95,13 +79,8 @@ router.post('/deleteContact', function(req,res,next) {
 });
 
 
-router.post('/updateSubmission', function(req,res,next ) {
-    console.log("POSTING IN updateSubmission")
-});
-
-
 /*
-    contactCleaner - Responsible for taking the information submitted from the form and putting the data together and adding it to the global list
+    contactCleaner - Responsible for taking the information submitted from the form and adding bool values if a user wants to be contacted by mail or phone.
                     (ie- appending the data for address/name to one string and checking how to contact a person.)
     
     parameters

@@ -4,11 +4,9 @@ var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 var indexRouter = require('./routes/index');
-var session = require('express-session');
 var lessMiddleware = require('less-middleware')
 //required to create mongodatabase on startup
 let mongoDatabase = require('./public/javascripts/database-setup');
-//required to create leaflet map on startup.
 var app = express();
 
 // view engine setup

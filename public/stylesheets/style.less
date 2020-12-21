@@ -2,16 +2,27 @@
 @border_radius: 10px;
 @border_width: 2px;
 @font_color: #c4c4c4;
+@background_color: #161716;
+@default_font : 14px "Lucida Grande", Helvetica, Arial, sans-serif;
 
 body {
   padding: 50px;
-  font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
-  background-color: black;
+  font-style: @default_font;
+  background-color: @background_color;
+  color:@font_color;
 }
 
 label {
-    font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
-
+    font-style: @default_font;
+    color:@font_color;
+}
+h1 {
+    font-style: @default_font;
+    color: @font_color;
+}
+td {
+    font-style: @default_font;
+    color:@font_color;
 }
 
 a {
@@ -47,9 +58,21 @@ h1 {
     border-color: rgb(0, 0, 49);
 }
 .table.table-dark{
-    margin-top: @default_padding;
+    margin-top: @default_padding / 2;
 }
 
 .row {
     padding:@default_padding;
+}
+//tooltip that comes up when hovering over marker on a map
+.leaflet-popup-content-wrapper{
+    background-color: @background_color;
+    font-style: @default_font;
+    color:@font_color;
+}
+//addcontactbutton in contacts pug file
+#addContactButton {
+    margin-top: @default_padding;
+    margin-bottom: @default_padding/2;
+    
 }

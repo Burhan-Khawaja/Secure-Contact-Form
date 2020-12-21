@@ -9,7 +9,7 @@ head
     link(href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-giJF6kkoqNQ00vy+HMDP7azOuL0xtbfIcaT9wjKHr8RbDVddVHyTfAAsrekwKmP1" crossorigin="anonymous")
     script(src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/js/bootstrap.bundle.min.js" integrity="sha384-ygbV9kiqUc6oa4msXn9868pTtWMgiQaeYH7/t7LECLbyPA2x65Kgf80OJFdroafW" crossorigin="anonymous")
     link(rel='stylesheet', href='/stylesheets/style.css')
-
+    title Contact List
 body
     .container
         .card.text-white.bg-dark
@@ -18,6 +18,10 @@ body
             .card-body
                 .form-group.text-center
                     input.form-control(type="text" id="searchBox" onkeyup="searchTable()" placeholder="Search for names..")
+        .form-group.text-left
+            //create td attribute, add event listener. This event listener 
+            //when clicked will call cahngeContact driver function with _id
+            button.btn-dark(type='button' onclick= 'window.open("/mailer","_self")' id="addContactButton")  Add a new contact
         table.table.table-dark.table-bordered.table-hover(id="contactList")
             thead
                 tr  
@@ -38,16 +42,12 @@ body
                         td #{response.email}
                         td(id="contactID" hidden) #{response._id}
 
-        //create td attribute, add event listener. This event listener 
-        //when clicked will call cahngeContact driver function with _id
-        d-flex.p-2
-            button.btn-primary(type='button' onclick= 'window.open("/mailer","_self")')  Add a new contact
+
         #myMap
         script. 
             createMap();
 
-    //This script is resposnbile for addng the event listener on each table row 
-    //in the table so that when its clicked the map will move to the marker.
+    //add event listener on each table row that moves map to marker
     script.     
         var tableBody = document.getElementById('tableBody');
         for(let i = 0; i < tableBody.childNodes.length; i++) {
@@ -57,18 +57,17 @@ body
             });
         }
 
-    //this script will add markers for every contact
+    // add markers for every contact, pass contact to addMarker javascript function  
     each response in responseList
         script.
-            addMarker(#{response.longitude}, #{response.latitude})        
+            var contact = !{JSON.stringify(response)}
+            addMarker(contact);
 
-    //add event handler  to send ID to function which will send post request, and
-    //we will be able to lookup in the database using the _id.        
-    //also include event handler to delete a contact from the contact list.
 
-    //script to add button to delete contact.
+    //add event handler to delete contact from the contact list.
     each response, index in responseList
         script.      
+            //create button, create text for button, add event listener, get table body and the rows then append it to the row at index + 1.
             var deleteButton = document.createElement('td');
             deleteButton.className = 'container btn btn-danger btn-sm';
             var deleteText = document.createTextNode("Delete");
@@ -80,9 +79,12 @@ body
             tr = tbl.getElementsByTagName("tr");
             deleteButton.appendChild(deleteText);
             tr[#{index} + 1].appendChild(deleteButton);
-    //script to add button to update contact.
+
+    //add event handler to update contact
     each response, index in responseList
         script. 
+            //create button, create text for button, add event listener, get table body and the rows then append it to the row at index + 1.
+
             var updateButton = document.createElement('td');
             updateButton.className = 'container btn btn-primary btn-sm';
             var updateText = document.createTextNode("Update");
